@@ -58,3 +58,4 @@ function displayCart() {
 }
 
 loadProducts();
+
