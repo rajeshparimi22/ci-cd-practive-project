@@ -1,13 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Cloth Store</title>
-</head>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 
-<h1>Online Cloth Store</h1>
-<p>Welcome to our simple clothing store</p>
+    <header>
+        <h1>Fashion Store</h1>
+        <p>Shop Your Style</p>
+        <h3>Cart: <span id="cart-count">0</span></h3>
+    </header>
 
+    <main>
+        <h2>Our Collection</h2>
+        <div id="products" class="products"></div>
+
+        <h2>Your Cart</h2>
+        <div id="cart"></div>
+        <h3>Total: ₹<span id="total">0</span></h3>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
