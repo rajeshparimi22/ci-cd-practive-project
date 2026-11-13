@@ -1,19 +1,21 @@
 
-name: React CI Pipeline
+name: Clothes Store CI CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  build:
+  test:
+    name: CI - Test Project
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +30,9 @@ jobs:
       - name: Check JavaScript
         run: node --check script.js
 
+      - name: Validate JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('products.json', 'utf8'))"
+
       - name: Check Project Files
         run: |
           test -f index.html
@@ -35,8 +40,39 @@ jobs:
           test -f script.js
           test -f products.json
 
-      - name: Build Success
-        run: echo "CI Pipeline Completed Successfully!"
+      - name: CI Success
+        run: echo "All tests passed!"
+
+  deploy:
+    name: CD - Deploy Website
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy Website
+        id: deployment
+        uses: actions/deploy-pages@v4
 
 
 
